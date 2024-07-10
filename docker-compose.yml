@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql57-container
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword # Root 賬號的密碼
+      MYSQL_DATABASE: testdb # 預設創建的資料庫
+      MYSQL_USER: user # 自定義的用戶名
+      MYSQL_PASSWORD: password # 自定義用戶的密碼
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    platform: linux/amd64
+
+volumes:
+  db_data:
