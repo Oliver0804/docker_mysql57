@@ -12,47 +12,42 @@ services:
     image: mysql:5.7
     container_name: mysql57-container
     environment:
-      MYSQL_ROOT_PASSWORD: mypassword
-      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: mypassword # Root 賬號的密碼
+      MYSQL_DATABASE: WiringSystemRecordsDB # 預設創建的資料庫
+      MYSQL_USER: user # 自定義的用戶名
+      MYSQL_PASSWORD: password # 自定義用戶的密碼
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backup.sh:/backup.sh # 備份腳本
+      - ./backup:/backup  # 持久化備份的數據
     platform: linux/amd64
 
 volumes:
   db_data:
+
 ```
 
-## 步驟 2：創建初始化 SQL 文件
-在同一個目錄中創建一個名為 init.sql 的文件，並添加以下內容來初始化資料庫和表：
-```sql
-CREATE DATABASE IF NOT EXISTS testdb;
-USE testdb;
 
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100)
-);
-```
 
-## 步驟 3：啟動 Docker Compose
+
+## 步驟 2：啟動 Docker Compose
 在終端或命令提示符中，導航到包含 docker-compose.yml 文件的目錄，然後運行以下命令來啟動 Docker Compose：
 ```bash
 docker-compose up -d
 ```
 
 
-## 步驟 4：連線到 MySQL
+## 步驟 3：連線到 MySQL
 打開終端並運行以下命令：
 ```bash
 docker exec -it mysql57-container mysql -uroot -pmypassword
 ```
 
 
-## 步驟 5：更新 init.sql 文件
+## 資料庫更新：更新 init.sql 文件
 如果你更新了 init.sql 文件並希望將更改應用到你的 MySQL 容器中，請按照以下步驟操作：
 
 1.停止並移除現有的容器：
@@ -145,3 +140,4 @@ docker exec mysql57-container sh -c 'exec mysqldump -uroot -pmypassword testdb' 
 # 還原數據庫
 docker exec -i mysql57-container sh -c 'exec mysql -uroot -pmypassword testdb' < ~/mysql_backups/testdb_backup.sql
 ```
+
