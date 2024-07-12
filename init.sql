@@ -24,14 +24,16 @@ CREATE TABLE WiringRecord (
     SampleTestSerialNumber VARCHAR(100) NOT NULL, -- 抽樣測試序號
     FrontLength DECIMAL(10, 2) NOT NULL,      -- 前段長度，支援小數點
     BackLength DECIMAL(10, 2) NOT NULL,       -- 後段長度，支援小數點
-    Tension DECIMAL(10, 2) NOT NULL,          -- 拉力值，支援小數點
+    Tension DECIMAL(10, 2),                   -- 拉力值，支援小數點
+    KEY (WorkOrderID),                        -- 工單編號索引
     FOREIGN KEY (WorkOrderID) REFERENCES WorkOrder(WorkOrderID)
 );
 
 -- 創建配方表
 CREATE TABLE Recipe (
-    MoldID VARCHAR(50) PRIMARY KEY,       -- 模具編號
-    TerminalID VARCHAR(50) NOT NULL,      -- 端子編號
-    WireDiameter DECIMAL(10, 2) NOT NULL,    -- 線徑，支援小數點
-    MotorHeight INT NOT NULL              -- 馬達高度
+    RecipeID INT AUTO_INCREMENT PRIMARY KEY,  -- 自增主鍵
+    MoldID VARCHAR(50) NOT NULL,              -- 模具編號
+    TerminalID VARCHAR(50) NOT NULL,          -- 端子編號
+    WireDiameter DECIMAL(10, 2) NOT NULL,     -- 線徑，支援小數點
+    MotorHeight INT NOT NULL                  -- 馬達高度
 );
