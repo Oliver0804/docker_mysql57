@@ -1,0 +1,26 @@
+Table WorkOrder {
+  WorkOrderID VARCHAR(50) [pk]
+  Date DATE
+  ID VARCHAR(50)
+  Mold VARCHAR(100)
+  Terminal VARCHAR(100)
+  WireDiameter VARCHAR(50)
+  TotalQuantity INT
+  WorkTimeSeconds INT
+}
+
+Table WiringRecord {
+  ID INT [pk, increment]
+  WorkOrderID VARCHAR(50) [ref: > WorkOrder.WorkOrderID]
+  Date DATE
+  SampleTestSerialNumber VARCHAR(100)
+  FrontLength INT
+  BackLength INT
+}
+
+Table Recipe {
+  MoldID VARCHAR(50) [pk]
+  TerminalID VARCHAR(50)
+  WireDiameter VARCHAR(50)
+  MotorHeight INT
+}
