@@ -28,12 +28,11 @@ CREATE TABLE WiringRecord (
     KEY (WorkOrderID),                        -- 工單編號索引
     FOREIGN KEY (WorkOrderID) REFERENCES WorkOrder(WorkOrderID)
 );
-
 -- 創建配方表
 CREATE TABLE Recipe (
     RecipeID INT AUTO_INCREMENT PRIMARY KEY,  -- 自增主鍵
     MoldID VARCHAR(50) NOT NULL,              -- 模具編號
     TerminalID VARCHAR(50) NOT NULL,          -- 端子編號
     WireDiameter DECIMAL(10, 2) NOT NULL,     -- 線徑，支援小數點
-    MotorHeight INT NOT NULL                  -- 馬達高度
+    MotorHeight DECIMAL(10, 2) NOT NULL       -- 馬達高度
 );
