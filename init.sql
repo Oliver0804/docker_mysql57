@@ -34,5 +34,6 @@ CREATE TABLE Recipe (
     MoldID VARCHAR(50) NOT NULL,              -- 模具編號
     TerminalID VARCHAR(50) NOT NULL,          -- 端子編號
     WireDiameter DECIMAL(10, 2) NOT NULL,     -- 線徑，支援小數點
-    MotorHeight DECIMAL(10, 2) NOT NULL       -- 馬達高度
+    MotorHeight DECIMAL(10, 2) NOT NULL,      -- 馬達高度
+    UNIQUE KEY unique_recipe (MoldID, TerminalID, WireDiameter)  -- 唯一鍵
 );
