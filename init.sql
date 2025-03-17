@@ -39,3 +39,23 @@ CREATE TABLE Recipe (
     MotorHeight DECIMAL(10, 2) NOT NULL,      -- 馬達高度
     UNIQUE KEY unique_recipe (MoldID, TerminalID, WireDiameter)  -- 唯一鍵
 );
+
+-- 創建沖壓異常記錄表
+CREATE TABLE StampingAbnormality (
+    AbnormalityID INT AUTO_INCREMENT PRIMARY KEY,  -- 異常記錄ID
+    WorkOrderID VARCHAR(50) NOT NULL,              -- 工單編號 (外鍵)
+    AbnormalityTime DATETIME NOT NULL,             -- 異常發生時間點
+    AbnormalityType VARCHAR(100) NOT NULL,         -- 異常類型
+    Description TEXT,                              -- 異常描述
+    HandlingMeasures TEXT,                         -- 處理措施
+    HandledBy VARCHAR(50),                         -- 處理人員
+    Status ENUM('pending', 'handling', 'resolved') DEFAULT 'pending', -- 處理狀態
+    FOREIGN KEY (WorkOrderID) REFERENCES WorkOrder(WorkOrderID)
+);
+
+-- 創建異常類型參考表（可選）
+CREATE TABLE AbnormalityType (
+    TypeID INT AUTO_INCREMENT PRIMARY KEY,
+    TypeName VARCHAR(100) NOT NULL UNIQUE,
+    Description TEXT
+);

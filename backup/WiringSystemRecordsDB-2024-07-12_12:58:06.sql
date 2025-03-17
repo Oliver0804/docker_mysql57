@@ -99,6 +99,37 @@ LOCK TABLES `WorkOrder` WRITE;
 /*!40000 ALTER TABLE `WorkOrder` DISABLE KEYS */;
 /*!40000 ALTER TABLE `WorkOrder` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `PressAbnormal`
+--
+
+DROP TABLE IF EXISTS `PressAbnormal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PressAbnormal` (
+  `AbnormalID` int(11) NOT NULL AUTO_INCREMENT,
+  `WorkOrderID` varchar(50) NOT NULL,
+  `AbnormalDateTime` datetime NOT NULL,
+  `AbnormalType` varchar(100) NOT NULL,
+  `Description` text,
+  `ProcessedBy` varchar(50),
+  `ProcessedDateTime` datetime,
+  `Status` varchar(20) DEFAULT 'Open',
+  PRIMARY KEY (`AbnormalID`),
+  KEY `WorkOrderID` (`WorkOrderID`),
+  CONSTRAINT `PressAbnormal_ibfk_1` FOREIGN KEY (`WorkOrderID`) REFERENCES `WorkOrder` (`WorkOrderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PressAbnormal`
+--
+
+LOCK TABLES `PressAbnormal` WRITE;
+/*!40000 ALTER TABLE `PressAbnormal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PressAbnormal` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

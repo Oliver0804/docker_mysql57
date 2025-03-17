@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   db:
@@ -9,14 +9,33 @@ services:
       MYSQL_DATABASE: WiringSystemRecordsDB # 預設創建的資料庫
       MYSQL_USER: user # 自定義的用戶名
       MYSQL_PASSWORD: password # 自定義用戶的密碼
+      # 添加字符集配置環境變數
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    # 添加命令覆蓋默認啟動命令，設定字符集
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --init-connect=SET NAMES utf8mb4
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./backup.sh:/backup.sh # 備份腳本
-      - ./backup:/backup  # 持久化備份的數據
+      - ./backup:/backup # 持久化備份的數據
+      # 添加自定義配置文件
+      - ./my.cnf:/etc/mysql/conf.d/charset.cnf
     platform: linux/amd64
+    restart: always
+    # 可以添加 logging 配置來控制日誌輸出
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   db_data:
+    name: mysql_docker_db_data # 修改為更明確的名稱，與 Docker 自動生成的一致
